@@ -1,0 +1,4 @@
+DB,Query,DataSize,Time
+Neo4j,FetchFriends,10K,0.3624136447906494
+Neo4j,MutualFriends,10K,0.02228546142578125
+Neo4j,FriendCount,10K,0.6680245399475098

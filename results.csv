@@ -1,0 +1,4 @@
+PostgreSQL,FetchPosts,With/Without Index,0.1802053451538086
+PostgreSQL,Aggregation,-,0.05285525321960449
+PostgreSQL,Join,-,0.062461137771606445
+PostgreSQL,FetchPosts,10K,0.00903630256652832
