@@ -1,20 +1,19 @@
-import pg8000
+import psycopg2
 import time
 import csv
 import os
 
 # DB connection
-conn = pg8000.connect(
-    database="social_db",
+conn = psycopg2.connect(
+    dbname="social_db",
     user="myuser",
     password="mypassword",
     host="127.0.0.1",
-    port=5432
+    port=5433
 )
 
 cur = conn.cursor()
 
-# ✅ FIXED filename
 file_name = "postgres_results.csv"
 file_exists = os.path.isfile(file_name)
 
@@ -24,9 +23,7 @@ with open(file_name, "a", newline="") as file:
     if not file_exists:
         writer.writerow(["DB", "Query", "DataSize", "Time"])
 
-    # -------------------------
     # 1. Fetch posts
-    # -------------------------
     start = time.time()
 
     cur.execute("SELECT * FROM posts WHERE user_id = 10")
@@ -38,9 +35,7 @@ with open(file_name, "a", newline="") as file:
     print("FetchPosts Time:", time_taken)
     writer.writerow(["PostgreSQL", "FetchPosts", "10K", time_taken])
 
-    # -------------------------
     # 2. Aggregation
-    # -------------------------
     start = time.time()
 
     cur.execute("""
@@ -56,9 +51,7 @@ with open(file_name, "a", newline="") as file:
     print("Aggregation Time:", time_taken)
     writer.writerow(["PostgreSQL", "Aggregation", "10K", time_taken])
 
-    # -------------------------
     # 3. Join
-    # -------------------------
     start = time.time()
 
     cur.execute("""
@@ -74,9 +67,7 @@ with open(file_name, "a", newline="") as file:
     print("Join Time:", time_taken)
     writer.writerow(["PostgreSQL", "Join", "10K", time_taken])
 
-    # -------------------------
     # 4. Top Users
-    # -------------------------
     start = time.time()
 
     cur.execute("""
@@ -93,7 +84,6 @@ with open(file_name, "a", newline="") as file:
 
     print("TopUsers Time:", time_taken)
 
-    # ✅ FIXED LABEL
     writer.writerow(["PostgreSQL", "TopUsers", "10K", time_taken])
 
 # cleanup

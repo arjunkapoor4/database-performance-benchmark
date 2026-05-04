@@ -3,26 +3,20 @@ import time
 import csv
 import os
 
-# -------------------------
 # Config
-# -------------------------
 DB_NAME = "social_db"
 COLLECTION = "users"
 CSV_FILE = "mongo_results.csv"
-DATA_SIZE = "10K"   # change if you scale (1K, 10K, 50K)
+DATA_SIZE = "10K"   
 
-# -------------------------
 # Connect to MongoDB
-# -------------------------
 client = MongoClient("mongodb://localhost:27017/")
 db = client[DB_NAME]
 col = db[COLLECTION]
 
 print("Connected to MongoDB")
 
-# -------------------------
 # CSV Setup
-# -------------------------
 file_exists = os.path.isfile(CSV_FILE)
 
 with open(CSV_FILE, "a", newline="") as file:
@@ -31,9 +25,7 @@ with open(CSV_FILE, "a", newline="") as file:
     if not file_exists:
         writer.writerow(["DB", "Query", "DataSize", "Time"])
 
-    # -------------------------
     # 1. Fetch Posts (Read)
-    # -------------------------
     start = time.time()
 
     user = col.find_one({"user_id": 10})
@@ -45,9 +37,7 @@ with open(CSV_FILE, "a", newline="") as file:
     print("FetchPosts:", time_taken)
     writer.writerow(["MongoDB", "FetchPosts", DATA_SIZE, time_taken])
 
-    # -------------------------
     # 2. Aggregation (Likes Count)
-    # -------------------------
     start = time.time()
 
     result = col.aggregate([
@@ -62,9 +52,7 @@ with open(CSV_FILE, "a", newline="") as file:
     print("Aggregation:", time_taken)
     writer.writerow(["MongoDB", "Aggregation", DATA_SIZE, time_taken])
 
-    # -------------------------
     # 3. Top Users (Posts Count)
-    # -------------------------
     start = time.time()
 
     result = col.aggregate([
@@ -80,9 +68,7 @@ with open(CSV_FILE, "a", newline="") as file:
     print("TopUsers:", time_taken)
     writer.writerow(["MongoDB", "TopUsers", DATA_SIZE, time_taken])
 
-    # -------------------------
     # 4. Friend Count
-    # -------------------------
     start = time.time()
 
     result = col.aggregate([

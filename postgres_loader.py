@@ -8,7 +8,7 @@ conn = psycopg2.connect(
     user="myuser",
     password="mypassword",
     host="127.0.0.1",
-    port="5432"
+    port=5433
 )
 cur = conn.cursor()
 print("Connected to PostgreSQL")
